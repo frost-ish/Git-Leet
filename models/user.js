@@ -1,24 +1,33 @@
 const sequelize = require("../config/database");
 const { DataTypes } = require("sequelize");
+const { UserRoles } = require("../utils/enums");
 
 const User = sequelize.define(
-	"User",
+	"user",
 	{
-		id: {
-			type: DataTypes.INTEGER,
-			primaryKey: true,
-		},
 		email: {
 			type: DataTypes.STRING,
 			allowNull: false,
+			primaryKey: true,
 		},
-        role: {
-            type: DataTypes.ENUM(Object.values(UserRoles))
-        }
+		name: {
+			type: DataTypes.STRING,
+			allowNull: false,
+		},
+		password: {
+			type: DataTypes.STRING,
+			allowNull: false,
+		},
+		salt: {
+			type: DataTypes.STRING,
+			allowNull: false,
+		},
+		role: {
+			type: DataTypes.ENUM(Object.values(UserRoles)),
+		},
 	},
 	{
-		tableName: "users",
-		timestamps: false,
+		timestamps: true,
 		underscored: true,
 	}
 );

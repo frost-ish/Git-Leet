@@ -1,11 +1,19 @@
-const express = require('express')
+const express = require("express");
 const app = express();
+app.use(express.json());
 const port = 3000;
 
-app.get('/', (req, res) => {
-    res.send('Hi');
-});
+const { sequelize } = require("./models/index");
 
-app.listen(port, ()=> {
-    console.log('Server is running on localhost '+port);
-});
+async function startServer() {
+	await sequelize.authenticate();
+
+	app.listen(port, () => {
+		console.log("Server is running on localhost " + port);
+	});
+}
+
+startServer();
+
+const userRouter = require("./routes/user");
+app.use("/user", userRouter);
