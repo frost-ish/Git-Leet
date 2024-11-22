@@ -33,11 +33,8 @@ const loginUser = async (req, res) => {
 };
 
 const sayHello = async (req, res) => {
-	var token = req.headers.authorization;
-	token = token.substring(7);
-	const name = await UserService.getName(token);
 	res.status(200).json({
-		message: `Hello ${name}`,
+		message: `Hello ${req.user.name}`,
 	});
 	return;
 };

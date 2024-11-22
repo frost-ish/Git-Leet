@@ -15,5 +15,4 @@ async function startServer() {
 
 startServer();
 
-const userRouter = require("./routes/user");
-app.use("/user", userRouter);
+app.use("/", require("./routes/index"));

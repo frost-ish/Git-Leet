@@ -29,14 +29,14 @@ const loginUser = async (email, password) => {
 	const hashedPassword = CryptoService.genHash(password, salt);
 	if (user.password != hashedPassword) throw "Incorrect Password";
 
-	const token = jwt.sign({ email: user.email, role: user.role, name: user.name }, process.env.JWT_SECRET, {
-		expiresIn: "1h",
-	});
+	const token = jwt.sign(
+		{ email: user.email, role: user.role, name: user.name },
+		process.env.JWT_SECRET,
+		{
+			expiresIn: "1h",
+		}
+	);
 	return token;
 };
 
-const getName = async (token) => {
-	const payload = jwt.verify(token, process.env.JWT_SECRET);
-	return payload.name;
-};
-module.exports = { registerUser, loginUser, getName };
+module.exports = { registerUser, loginUser };
