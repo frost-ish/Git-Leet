@@ -1,13 +1,25 @@
-const jwt = require("jsonwebtoken");
+const jwt = require('jsonwebtoken');
 
 const userExists = async (req, res, next) => {
-	const token = req.headers.authorization.substring(7);
+  let token;
 
-	if (!token) throw "No token provided";
+  try {
+    token = req.headers.authorization?.substring(7);
 
-	const payload = jwt.verify(token, process.env.JWT_SECRET);
-	req.user = payload;
-	next();
+    if (!token) {
+      throw new Error("No token provided");
+    }
+
+    const payload = jwt.verify(token, process.env.JWT_SECRET);
+
+    req.user = payload;
+
+    next();
+  } catch (err) {
+    res.status(401).json({
+      message: err.message || "No JWT token provided",
+    });
+  }
 };
 
 module.exports = userExists;

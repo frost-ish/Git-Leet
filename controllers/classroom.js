@@ -9,9 +9,7 @@ const createClassroom = async (req, res) => {
 		});
 		return;
 	}
-
 	const classroom = await Classroom.create({ name });
-
 	res.status(201).json({
 		message: "Classroom Created Successfully",
 		classroom,

@@ -36,7 +36,7 @@ const loginUser = async (email, password) => {
 			expiresIn: "1h",
 		}
 	);
-	return token;
+	return {jwt: token, role: user.role};
 };
 
 module.exports = { registerUser, loginUser };
