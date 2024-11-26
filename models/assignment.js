@@ -11,13 +11,13 @@ const Assignment = sequelize.define("assignment", {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    description: {
+    link: {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    deadline: {
-        type: DataTypes.DATE,
+    description: {
+        type: DataTypes.STRING,
     },
 });
 
-module.exports = Assignment;    
+module.exports = Assignment;

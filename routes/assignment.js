@@ -12,9 +12,4 @@ router.get("/:id", AssignmentController.getAssignmentById);
 
 router.put("/:id", isTeacher, AssignmentController.updateAssignment);
 
-router.get(
-	"/:id/leaderboard",
-	AssignmentController.getLeaderBoardForAssignment
-);
-
 module.exports = router;

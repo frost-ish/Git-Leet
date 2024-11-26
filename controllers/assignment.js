@@ -1,16 +1,16 @@
 const { Assignment } = require("../models");
 
 const createAssignment = async (req, res) => {
-	const { name, description, dueDate } = req.body;
+	const { title, link, description } = req.body;
 
-	if (!name || !description) {
+	if (!title || !link) {
 		res.status(400).json({
 			message: "ERROR",
 		});
 		return;
 	}
 
-	const assignment = await Assignment.create({ name, description, dueDate });
+	const assignment = await Assignment.create({ title, link, description });
 
 	res.status(201).json({
 		message: "Assignment Created Successfully",
@@ -29,33 +29,6 @@ const getAssignmentsByClassroom = async (req, res) => {
 
 	res.status(200).json({
 		assignments,
-	});
-};
-
-const getLeaderBoardForAssignment = async (req, res) => {
-	const { id } = req.params;
-
-	const assignment = await Assignment.findByPk(id, {
-		include: "students",
-	});
-
-	// Create a map of student vs questions completed
-	for (const student of assignment.students) {
-		const questionsCompleted = await student.getQuestions({
-			where: {
-				assignmentId: id,
-			},
-		});
-		student.questionsCompleted = questionsCompleted.length;
-	}
-
-	// Sort students by questions completed
-	assignment.students.sort(
-		(a, b) => b.questionsCompleted - a.questionsCompleted
-	);
-
-	res.status(200).json({
-		assignment,
 	});
 };
 
@@ -103,7 +76,6 @@ const updateAssignment = async (req, res) => {
 module.exports = {
 	createAssignment,
 	getAssignmentsByClassroom,
-	getLeaderBoardForAssignment,
 	getAssignmentById,
 	updateAssignment,
 };
