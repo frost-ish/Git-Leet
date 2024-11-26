@@ -51,9 +51,20 @@ const joinClassroom = async (req, res) => {
 	});
 };
 
+const getClassroomsForStudent = async (req, res) => {
+	const user = await User.findByPk(req.user.email);
+	const student = await user.getStudent();
+	const classrooms = await student.getClassrooms();
+
+	res.status(200).json({
+		classrooms,
+	});
+};
+
 module.exports = {
 	createClassroom,
 	getClassrooms,
 	joinClassroom,
 	getStudentsForClassroom,
+	getClassroomsForStudent,
 };

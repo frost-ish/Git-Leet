@@ -12,7 +12,10 @@ async function startServer() {
 		console.log("Server is running on localhost " + port);
 	});
 }
-
 startServer();
 
+app.get("/sync", async (req, res) => {
+	await sequelize.sync({ force: true });
+	res.send("Database synced");
+});
 app.use("/", require("./routes/index"));
