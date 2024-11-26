@@ -33,12 +33,17 @@ const loginUser = async (email, password) => {
 	const user = await User.findByPk(email);
 	if (!user) throw "User does not exist";
 
+	var roll_number = "";
+	if (user.role == "student") {
+		const student = await user.getStudent();
+		roll_number = student.rollNumber;
+	}
 	const salt = user.salt;
 	const hashedPassword = CryptoService.genHash(password, salt);
 	if (user.password != hashedPassword) throw "Incorrect Password";
 
 	const token = jwt.sign(
-		{ email: user.email, role: user.role, name: user.name },
+		{ email: user.email, role: user.role, name: user.name, rollNumber: roll_number },
 		process.env.JWT_SECRET,
 		{
 			expiresIn: "10h",
