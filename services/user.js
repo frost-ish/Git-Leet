@@ -2,7 +2,7 @@ const { User } = require("../models/index");
 const CryptoService = require("./crypto");
 const jwt = require("jsonwebtoken");
 
-const registerUser = async (email, password, name, role) => {
+const registerUser = async (email, password, name, role, rollNumber) => {
 	const user = await User.findByPk(email);
 	if (user) throw "User already exists";
 
@@ -17,6 +17,12 @@ const registerUser = async (email, password, name, role) => {
 		salt,
 		role,
 	});
+
+	if (role == "teacher") {
+		await createdUser.createTeacher();
+	} else {
+		await createdUser.createStudent({rollNumber: rollNumber});
+	}
 
 	return createdUser;
 };
@@ -36,8 +42,8 @@ const loginUser = async (email, password) => {
 			expiresIn: "10h",
 		}
 	);
-	
-	return {jwt: token, role: user.role, id: email};
+
+	return { jwt: token, role: user.role, id: email };
 };
 
 module.exports = { registerUser, loginUser };

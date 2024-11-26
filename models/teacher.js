@@ -15,6 +15,7 @@ const Teacher = sequelize.define(
 		},
 		id: {
 			type: DataTypes.INTEGER,
+			autoIncrement: true,
 			allowNull: false,
 		},
 	},

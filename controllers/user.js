@@ -2,20 +2,31 @@ const { User } = require("../models");
 const UserService = require("../services/user");
 
 const registerUser = async (req, res) => {
-	const { email, password, name, role } = req.body;
+	const { email, password, name, role, rollNumber } = req.body;
 
-	if (!email || !password || !name || !role || password.len < 2 || password.len > 24
+	if (
+		!email ||
+		!password ||
+		!name ||
+		!role ||
+		password.len < 2 ||
+		password.len > 24
 	) {
 		res.status(400).json({
 			message: "ERROR",
 		});
 		return;
 	}
-	try{
-		createdUser = await UserService.registerUser(email, password, name, role);
-	}
-	catch (error){
-		res.status(400).json({ message: error});
+	try {
+		createdUser = await UserService.registerUser(
+			email,
+			password,
+			name,
+			role,
+			rollNumber
+		);
+	} catch (error) {
+		res.status(400).json({ message: error });
 		return;
 	}
 
@@ -24,17 +35,16 @@ const registerUser = async (req, res) => {
 
 const loginUser = async (req, res) => {
 	const { email, password } = req.body;
-	try{
-		const {jwt, role, id} = await UserService.loginUser(email, password);
+	try {
+		const { jwt, role, id } = await UserService.loginUser(email, password);
 		res.status(200).json({
 			token: jwt,
 			role: role,
 			id: id,
 		});
 		return;
-	}
-	catch (error){
-		res.status(400).json({ message: error});
+	} catch (error) {
+		res.status(400).json({ message: error });
 		return;
 	}
 };
