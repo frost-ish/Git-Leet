@@ -72,7 +72,24 @@ const getClassroomsForStudent = async (req, res) => {
 		res.status(400).json({ message: error });
 		return;
 	}
+	for (const classroom of classrooms) {
+		// Get total number of questions across all assignments
+		const assignments = await classroom.getAssignments();
+		let totalQuestions = 0;
+		for (const assignment of assignments) {
+			const questions = await assignment.getQuestions();
+			totalQuestions += questions.length;
+		}
+		classroom.totalQuestions = totalQuestions;
 
+		// Get number of questions completed by student
+		const questionsCompleted = await student.getQuestions({
+			where: {
+				classroomId: classroom.id,
+			},
+		});
+		classroom.questionsCompleted = questionsCompleted.length;
+	}
 	res.status(200).json({
 		classrooms,
 	});
