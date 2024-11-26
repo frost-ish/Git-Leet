@@ -19,9 +19,11 @@ const registerUser = async (email, password, name, role, rollNumber) => {
 	});
 
 	if (role == "teacher") {
-		await createdUser.createTeacher();
+		await createdUser.createTeacher({
+			id: Math.floor(Math.random() * 9000) + 1000,
+		});
 	} else {
-		await createdUser.createStudent({rollNumber: rollNumber});
+		await createdUser.createStudent({ rollNumber: rollNumber });
 	}
 
 	return createdUser;
