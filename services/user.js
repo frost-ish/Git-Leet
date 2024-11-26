@@ -33,11 +33,11 @@ const loginUser = async (email, password) => {
 		{ email: user.email, role: user.role, name: user.name },
 		process.env.JWT_SECRET,
 		{
-			expiresIn: "1h",
+			expiresIn: "10h",
 		}
 	);
 	
-	return {jwt: token, role: user.role, id: user.id};
+	return {jwt: token, role: user.role, id: email};
 };
 
 module.exports = { registerUser, loginUser };

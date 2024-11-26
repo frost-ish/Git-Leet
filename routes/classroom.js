@@ -7,6 +7,8 @@ router.post("/", isTeacher, ClassroomController.createClassroom);
 
 router.get("/", isTeacher, ClassroomController.getClassrooms);
 
+router.get("/:id", ClassroomController.getClassroomById);
+
 router.get(
 	"/:id/students",
 	isTeacher,

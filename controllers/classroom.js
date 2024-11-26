@@ -9,10 +9,10 @@ const createClassroom = async (req, res) => {
 		});
 		return;
 	}
-	const classroom = await Classroom.create({ name });
+	const created_classroom = await Classroom.create({ name });
 	res.status(201).json({
 		message: "Classroom Created Successfully",
-		classroom,
+		classroom: created_classroom,
 	});
 };
 
@@ -22,6 +22,20 @@ const getClassrooms = async (req, res) => {
 	res.status(200).json({
 		classrooms,
 	});
+};
+const getClassroomById = async (req, res) => {
+	const { id } = req.params;
+	try {
+		const classroom = await Classroom.findByPk(id);
+	
+		res.status(200).json({
+			classroom,
+		});
+	}
+	catch (error){
+		res.status(400).json({ message: error});
+		return;
+	}
 };
 
 const getStudentsForClassroom = async (req, res) => {
@@ -52,7 +66,13 @@ const joinClassroom = async (req, res) => {
 const getClassroomsForStudent = async (req, res) => {
 	const user = await User.findByPk(req.user.email);
 	const student = await user.getStudent();
-	const classrooms = await student.getClassrooms();
+	try{
+		const classrooms = await student.getClassrooms();
+	}
+	catch (error){
+		res.status(400).json({ message: error});
+		return;
+	}
 
 	res.status(200).json({
 		classrooms,
@@ -65,4 +85,5 @@ module.exports = {
 	joinClassroom,
 	getStudentsForClassroom,
 	getClassroomsForStudent,
+	getClassroomById,
 };
