@@ -25,10 +25,11 @@ const registerUser = async (req, res) => {
 const loginUser = async (req, res) => {
 	const { email, password } = req.body;
 	try{
-		const {jwt, role} = await UserService.loginUser(email, password);
+		const {jwt, role, id} = await UserService.loginUser(email, password);
 		res.status(200).json({
 			token: jwt,
-			role: role
+			role: role,
+			id: id,
 		});
 		return;
 	}
