@@ -18,6 +18,9 @@ const Assignment = sequelize.define("assignment", {
     description: {
         type: DataTypes.STRING,
     },
+    dueDate: {
+        type: DataTypes.DATE,
+    },
 });
 
 module.exports = Assignment;

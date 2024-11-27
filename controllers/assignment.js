@@ -1,9 +1,9 @@
 const { Assignment } = require("../models");
 
 const createAssignment = async (req, res) => {
-    const { title, link, description, classroomId } = req.body;
+    const { title, link, description, classroomId, dueDate } = req.body;
 
-    if (!title || !link) {
+    if (!title || !link || !dueDate || !classroomId) {
         res.status(400).json({
             message: "ERROR",
         });
@@ -15,6 +15,7 @@ const createAssignment = async (req, res) => {
         link,
         description,
         classroomId,
+        dueDate,
     });
 
     res.status(201).json({
