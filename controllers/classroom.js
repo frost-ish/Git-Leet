@@ -132,4 +132,5 @@ module.exports = {
     getStudentsForClassroom,
     getClassroomsForStudent,
     getClassroomById,
+    getClassroomsForTeacher,
 };

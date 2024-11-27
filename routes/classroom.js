@@ -19,4 +19,6 @@ router.post("/:id/join", isStudent, ClassroomController.joinClassroom);
 
 router.get("/student", isStudent, ClassroomController.getClassroomsForStudent);
 
+router.get("/teacher", isTeacher, ClassroomController.getClassroomsForTeacher);
+
 module.exports = router;
