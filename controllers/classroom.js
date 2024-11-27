@@ -145,6 +145,9 @@ const getClassroomsForStudent = async (req, res) => {
         });
         classroom.dataValues.totalCompletedAssignments =
             completedAssignments.length;
+        classroom.dataValues.completedAssignments = completedAssignments.map(
+            (assignment) => assignment.id
+        );
         classroom.dataValues.assignments = assignments;
 
         // Get learderboard for the classroom
