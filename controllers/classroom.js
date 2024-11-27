@@ -23,6 +23,39 @@ const getClassrooms = async (req, res) => {
         classrooms,
     });
 };
+
+const getClassroomsForTeacher = async (req, res) => {
+    const classrooms = await Classroom.findAll();
+
+    // Get a list of students for each classroom
+    for (const classroom of classrooms) {
+        const students = await classroom.getStudents();
+
+        // For each student, get number of assignments completed
+        for (const student of students) {
+            const assignments = await student.getAssignments({
+                where: {
+                    classroomId: classroom.id,
+                },
+            });
+            student.dataValues.assignmentsCompleted = assignments.length;
+            student.dataValues.lastActive = "2024-11-27";
+        }
+
+        classroom.dataValues.students = students;
+    }
+
+    // Get a list of assignments for each classroom
+    for (const classroom of classrooms) {
+        const assignments = await classroom.getAssignments();
+        classroom.dataValues.assignments = assignments;
+    }
+
+    res.status(200).json({
+        classrooms,
+    });
+};
+
 const getClassroomById = async (req, res) => {
     const { id } = req.params;
     try {
