@@ -91,6 +91,13 @@ const joinClassroom = async (req, res) => {
     const student = await user.getStudent();
 
     const classroom = await Classroom.findByPk(id);
+    if (!classroom) {
+        res.status(404).json({
+            message: "Classroom not found",
+        });
+        return;
+    }
+
     await classroom.addStudent(student);
 
     res.status(200).json({
