@@ -141,6 +141,9 @@ const getClassroomsForStudent = async (req, res) => {
             });
             student.dataValues.assignmentsCompleted = assignments.length;
             student.dataValues.lastActive = "2024-11-27";
+            // Also get name of the student
+            const user = await User.findByPk(student.userEmail);
+            student.dataValues.name = user.name;
         }
         classroom.dataValues.students = students;
     }
