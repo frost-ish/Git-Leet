@@ -98,6 +98,19 @@ const joinClassroom = async (req, res) => {
         return;
     }
 
+    // Check if student is already in the classroom
+    const students = await classroom.getStudents({
+        where: {
+            userEmail: req.user.email,
+        },
+    });
+    if (students.length > 0) {
+        res.status(400).json({
+            message: "Student already in classroom",
+        });
+        return;
+    }
+
     await classroom.addStudent(student);
 
     res.status(200).json({
