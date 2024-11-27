@@ -9,7 +9,10 @@ const createClassroom = async (req, res) => {
         });
         return;
     }
-    const created_classroom = await Classroom.create({ name });
+    const created_classroom = await Classroom.create({
+        name,
+        teacherUserEmail: req.user.email,
+    });
     res.status(201).json({
         message: "Classroom Created Successfully",
         classroom: created_classroom,

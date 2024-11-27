@@ -20,7 +20,7 @@ Classroom.belongsToMany(Student, { through: "student_classroom" });
 Classroom.hasMany(Assignment);
 Assignment.belongsTo(Classroom);
 
-Assignment.belongsToMany(Student, { through: "student_assigment_completed" });
+Assignment.belongsToMany(Student, { through: "student_assignment_completed" });
 Student.belongsToMany(Assignment, { through: "student_assignment_completed" });
 
 module.exports = {

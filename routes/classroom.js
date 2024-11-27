@@ -7,18 +7,18 @@ router.post("/", isTeacher, ClassroomController.createClassroom);
 
 router.get("/", isTeacher, ClassroomController.getClassrooms);
 
-router.get("/:id", ClassroomController.getClassroomById);
-
-router.get(
-	"/:id/students",
-	isTeacher,
-	ClassroomController.getStudentsForClassroom
-);
-
-router.post("/:id/join", isStudent, ClassroomController.joinClassroom);
+router.get("/teacher", isTeacher, ClassroomController.getClassroomsForTeacher);
 
 router.get("/student", isStudent, ClassroomController.getClassroomsForStudent);
 
-router.get("/teacher", isTeacher, ClassroomController.getClassroomsForTeacher);
+router.get("/:id", ClassroomController.getClassroomById);
+
+router.get(
+    "/:id/students",
+    isTeacher,
+    ClassroomController.getStudentsForClassroom
+);
+
+router.post("/:id/join", isStudent, ClassroomController.joinClassroom);
 
 module.exports = router;
