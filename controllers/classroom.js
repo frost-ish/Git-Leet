@@ -130,6 +130,19 @@ const getClassroomsForStudent = async (req, res) => {
         classroom.dataValues.totalCompletedAssignments =
             completedAssignments.length;
         classroom.dataValues.assignments = assignments;
+
+        // Get learderboard for the classroom
+        const students = await classroom.getStudents();
+        for (const student of students) {
+            const assignments = await student.getAssignments({
+                where: {
+                    classroomId: classroom.id,
+                },
+            });
+            student.dataValues.assignmentsCompleted = assignments.length;
+            student.dataValues.lastActive = "2024-11-27";
+        }
+        classroom.dataValues.students = students;
     }
     res.status(200).json({
         classrooms,
