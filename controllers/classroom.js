@@ -129,6 +129,7 @@ const getClassroomsForStudent = async (req, res) => {
         });
         classroom.dataValues.totalCompletedAssignments =
             completedAssignments.length;
+        classroom.dataValues.assignments = assignments;
     }
     res.status(200).json({
         classrooms,
