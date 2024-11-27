@@ -1,4 +1,4 @@
-const { Assignment } = require("../models");
+const { Assignment, Student } = require("../models");
 
 const createAssignment = async (req, res) => {
     const { title, link, description, classroomId, dueDate } = req.body;
@@ -35,6 +35,34 @@ const getAssignmentsByClassroom = async (req, res) => {
 
     res.status(200).json({
         assignments,
+    });
+};
+
+const markAssignmentAsCompleted = async (req, res) => {
+    const { assignmentId, userEmail } = req.body;
+
+    const assignment = await Assignment.findByPk(assignmentId);
+
+    if (!assignment) {
+        res.status(404).json({
+            message: "Assignment not found",
+        });
+        return;
+    }
+
+    const student = await Student.findByPk(userEmail);
+
+    if (!student) {
+        res.status(404).json({
+            message: "Student not found",
+        });
+        return;
+    }
+
+    await assignment.addStudent(student);
+
+    res.status(200).json({
+        message: "Assignment marked as completed",
     });
 };
 
@@ -84,4 +112,5 @@ module.exports = {
     getAssignmentsByClassroom,
     getAssignmentById,
     updateAssignment,
+    markAssignmentAsCompleted,
 };

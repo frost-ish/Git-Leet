@@ -12,4 +12,6 @@ router.get("/:id", AssignmentController.getAssignmentById);
 
 router.put("/:id", isTeacher, AssignmentController.updateAssignment);
 
+router.post("/:id/complete", AssignmentController.markAssignmentAsCompleted);
+
 module.exports = router;
